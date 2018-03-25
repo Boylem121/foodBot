@@ -31,6 +31,9 @@ async def on_message(message):
         with open('cat.png', 'rb') as f:
             await client.send_file(message.channel, f, filename='cat.png', content='Please, enjoy this cat.')
 
+    if message.content.startswith('Food at 6:30?') or message.content.startswith('food at 6:30?') or message.content.startswith('6:30?') or message.content.startswith('6:30') or message.content.startswith('food 6:30') or  message.content.startswith('food 6:30?') :
+        await client.send_message(message.channel, content="Yes like we always do even I know and I am a bot")
+
     if message.content.startswith('!help'):
         await client.send_message(message.channel, content='__**Michael Bot Help**__\n\n Command-Format: !meal-diningcenter \n All lower case\n Replace meal with food for whole day menu')
 
