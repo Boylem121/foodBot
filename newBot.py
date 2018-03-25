@@ -31,321 +31,136 @@ async def on_message(message):
         with open('cat.png', 'rb') as f:
             await client.send_file(message.channel, f, filename='cat.png', content='Please, enjoy this cat.')
 
+    if message.content.startswith('!help'):
+        await client.send_message(message.channel, content='__**Michael Bot Help**__\n\n Comand-Format: !meal-diningcenter \n all lower case\n replace meal with food for whole day menue')
+
     if message.content.startswith('!food-udcc'):
-        webPage = 'http://www.dining.iastate.edu/menus/udm'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/udm", "all", "none", "none", "none"))
     if message.content.startswith('!breakfast-udcc'):
-        webPage = 'http://www.dining.iastate.edu/menus/udm'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord:
-                break
-            await client.send_message(message.channel,dinnerStuffWord)  
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/udm", "first", "Lunch", "none", "Breakfast")) 
     if message.content.startswith('!lunch-udcc'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/udm'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Dinner" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/udm", "middle", "Dinner", "Breakfast", "Lunch"))
     if message.content.startswith('!dinner-udcc'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/udm'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Dinner" ==  dinnerStuffWord or print == 1:
-                await client.send_message(message.channel,dinnerStuffWord)
-                print = 1
-                      
-        
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/udm", "middle", "none", "Lunch", "Dinner"))
+
     if message.content.startswith('!food-windows'):
-        webPage = 'http://www.dining.iastate.edu/menus/windows'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinner = []
-        dinner = soup.findAll("div", attrs={"class": "menu-item"}, limit=43)
-        for x in range (0, len(dinner)):
-            dinnerFood = dinner[x].text
-            await client.send_message(message.channel, dinnerFood)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/windows", "all", "none", "none", "none")) 
     if message.content.startswith('!lunch-windows'):
-        webPage = 'http://www.dining.iastate.edu/menus/windows'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Continuous Service" ==  dinnerStuffWord:
-                break
-            await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/windows", "first", "Continuous Service", "none", "Breakfast")) 
     if message.content.startswith('!continuousservice-windows'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/windows'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Continuous Service" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Dinner" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/windows", "middle", "Dinner", "Breakfast", "Continuous Service"))
     if message.content.startswith('!dinner-windows'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/windows'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Dinner" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Late Night" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/windows", "middle", "Late Night", "Continuous Service", "Dinner"))
     if message.content.startswith('!latenight-windows'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/windows'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Late Night" ==  dinnerStuffWord or print == 1:
-                await client.send_message(message.channel,dinnerStuffWord)
-                print = 1
-
-    if message.content.startswith('!food-seasons'):
-        webPage = 'http://www.dining.iastate.edu/menus/seasons'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinner = []
-        dinner = soup.findAll("div", attrs={"class": "menu-item"}, limit=43)
-        for x in range (0, len(dinner)):
-            dinnerFood = dinner[x].text
-            await client.send_message(message.channel, dinnerFood)
-
-    if message.content.startswith('!breakfast-seasons'):
-        webPage = 'http://www.dining.iastate.edu/menus/seasons'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord:
-                break
-            await client.send_message(message.channel,dinnerStuffWord)
-
-    if message.content.startswith('!continuousservice-seasons'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/seasons'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Continuous Service" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Dinner" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
-    if message.content.startswith('!dinner-seasons'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/seasons'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Dinner" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Late Night" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
-    if message.content.startswith('!latenight-seasons'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/seasons'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Late Night" ==  dinnerStuffWord or print == 1:
-                await client.send_message(message.channel,dinnerStuffWord)
-                print = 1
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/windows", "middle", "none", "Dinner", "Late Night"))
 
     if message.content.startswith('!food-conversations'):
-        webPage = 'http://www.dining.iastate.edu/menus/conversations'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinner = []
-        dinner = soup.findAll("div", attrs={"class": "menu-item"}, limit=43)
-        for x in range (0, len(dinner)):
-            dinnerFood = dinner[x].text
-            await client.send_message(message.channel, dinnerFood)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "all", "none", "none", "none")) 
     if message.content.startswith('!breakfast-conversations'):
-        webPage = 'http://www.dining.iastate.edu/menus/conversations'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord:
-                break
-            await client.send_message(message.channel,dinnerStuffWord) 
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "first", "Lunch", "none", "Breakfast")) 
     if message.content.startswith('!lunch-conversations'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/conversations'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Continuous Service" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "middle", "Continuous Service", "Breakfast", "Lunch"))
     if message.content.startswith('!continuousservice-conversations'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/conversations'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Continuous Service" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Dinner" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "middle", "Dinner", "Lunch", "Continuous Service"))
+    if message.content.startswith('!dinner-conversations'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "middle", "none", "Continuous Service", "Dinner"))
+    if message.content.startswith('!food-conversations'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/conversations", "all", "none", "none", "none")) 
 
-    if message.content.startswith('!dinner-storms'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/conversations'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Dinner" ==  dinnerStuffWord or print == 1:
-                await client.send_message(message.channel,dinnerStuffWord)
-                print = 1
+    if message.content.startswith('!food-seasons'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/seasons", "all", "none", "none", "none")) 
+    if message.content.startswith('!breakfast-seasons'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/seasons", "first", "Lunch", "none", "Breakfast")) 
+    if message.content.startswith('!lunch-seasons'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/seasons", "middle", "Dinner", "Breakfast", "Lunch"))
+    if message.content.startswith('!dinner-seasons'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/seasons", "middle", "Late Night", "Lunch", "Dinner"))
+    if message.content.startswith('!latenight-seasons'):
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/seasons", "middle", "none", "Dinner", "Late Night"))
 
     if message.content.startswith('!food-storms'):
-        webPage = 'http://www.dining.iastate.edu/menus/storms'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinner = []
-        dinner = soup.findAll("div", attrs={"class": "menu-item"}, limit=43)
-        for x in range (0, len(dinner)):
-            dinnerFood = dinner[x].text
-            await client.send_message(message.channel, dinnerFood)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/storms", "all", "none", "none", "none")) 
     if message.content.startswith('!breakfast-storms'):
-        webPage = 'http://www.dining.iastate.edu/menus/storms'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord:
-                break
-            await client.send_message(message.channel,dinnerStuffWord) 
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/storms", "first", "Lunch", "none", "Breakfast")) 
     if message.content.startswith('!lunch-storms'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/storms'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Lunch" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Continuous Service" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
-    if message.content.startswith('!continuousservice-storms'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/storms'
-        page = urllib.request.urlopen(webPage)
-        soup = BeautifulSoup(page, 'html.parser')
-        dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
-        for y in range (0, len(dinnerStuff)):
-            dinnerStuffWord = dinnerStuff[y].text
-            if "Continuous Service" ==  dinnerStuffWord or print == 1:
-                print = 0
-                if "Dinner" != dinnerStuffWord:
-                    print = 1 
-                    await client.send_message(message.channel,dinnerStuffWord)
-
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/storms", "middle", "Dinner", "Breakfast", "Lunch"))
     if message.content.startswith('!dinner-storms'):
-        print = 0
-        webPage = 'http://www.dining.iastate.edu/menus/storms'
+        await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/storms", "middle", "none", "Lunch", "Dinner"))
+
+
+def food(link, time, next, previous, curent):
+    if time == "all":
+        webPage = link
         page = urllib.request.urlopen(webPage)
         soup = BeautifulSoup(page, 'html.parser')
+        final = ""
+        dinnerStuff = []
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']})
+        for y in range (0, len(dinnerStuff)):
+            dinnerStuffWord = dinnerStuff[y].text
+            if dinnerStuffWord == "Breakfast" or dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Continuous Service" or dinnerStuffWord == "Late Night":
+                final += "\n**" + dinnerStuffWord + "**\n\n"
+            else:
+                final += dinnerStuffWord + "\n"
+        return final
+    if time == "first":
+        webPage = link
+        page = urllib.request.urlopen(webPage)
+        soup = BeautifulSoup(page, 'html.parser')
+        final = ""
+        dinnerStuff = []
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']})
+        for y in range (0, len(dinnerStuff)):
+                dinnerStuffWord = dinnerStuff[y].text
+                if next ==  dinnerStuffWord:
+                    break
+                if dinnerStuffWord == "Breakfast" or dinnerStuffWord == "Lunch":
+                    final += "\n**" + dinnerStuffWord + "**\n"
+                else:
+                    final += dinnerStuffWord + "\n"
+        return final
+    if time == "middle":
+        print = 0
+        webPage = link
+        page = urllib.request.urlopen(webPage)
+        soup = BeautifulSoup(page, 'html.parser')
+        final = ""
         dinnerStuff = []
         dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
         for y in range (0, len(dinnerStuff)):
             dinnerStuffWord = dinnerStuff[y].text
-            if "Dinner" ==  dinnerStuffWord or print == 1:
-                await client.send_message(message.channel,dinnerStuffWord)
+            if curent ==  dinnerStuffWord or print == 1:
+                print = 0
+                if next != dinnerStuffWord:
+                    print = 1
+                    if  dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Continuous Service":
+                        final += "\n**" + dinnerStuffWord + "**\n"
+                    else:
+                        final += dinnerStuffWord + "\n" 
+        return final
+    if time == "last":
+        print = 0
+        webPage = link
+        page = urllib.request.urlopen(webPage)
+        soup = BeautifulSoup(page, 'html.parser')
+        final = ""
+        dinnerStuff = []
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
+        for y in range (0, len(dinnerStuff)):
+            dinnerStuffWord = dinnerStuff[y].text
+            if curent ==  dinnerStuffWord or print == 1:
+                if dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Late Night":
+                    final += "\n**" + dinnerStuffWord + "**\n"
+                else:
+                    final += dinnerStuffWord + "\n" 
                 print = 1
+        return final
+
 
     
 
 #Run locally
-client.run(botSecret.Token)
+#client.run(botSecret.Token)
 
 #Run on Heroku. Defined under Settings->Config Vars
-#client.run(environ.get('BOT_TOKEN'))
+client.run(environ.get('BOT_TOKEN'))
