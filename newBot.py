@@ -32,7 +32,7 @@ async def on_message(message):
             await client.send_file(message.channel, f, filename='cat.png', content='Please, enjoy this cat.')
 
     if message.content.startswith('!help'):
-        await client.send_message(message.channel, content='__**Michael Bot Help**__\n\n Comand-Format: !meal-diningcenter \n all lower case\n replace meal with food for whole day menue')
+        await client.send_message(message.channel, content='__**Michael Bot Help**__\n\n Comand-Format: !meal-diningcenter \n All lower case\n Replace meal with food for whole day menu')
 
     if message.content.startswith('!food-udcc'):
         await client.send_message(message.channel,food("http://www.dining.iastate.edu/menus/udm", "all", "none", "none", "none"))
