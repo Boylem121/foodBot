@@ -30,10 +30,7 @@ async def on_message(message):
             f.write(response.raw.read())
         with open('cat.png', 'rb') as f:
             await client.send_file(message.channel, f, filename='cat.png', content='Please, enjoy this cat.')
-
-    if message.content.startswith('Food at 6:30?') or message.content.startswith('food at 6:30?') or message.content.startswith('6:30?') or message.content.startswith('6:30') or message.content.startswith('food 6:30') or  message.content.startswith('food 6:30?') :
-        await client.send_message(message.channel, content="Yes like we always do even I know and I am a bot")
-
+            
     if message.content.startswith('!help'):
         await client.send_message(message.channel, content='__**Michael Bot Help**__\n\n Command-Format: !meal-diningcenter \n All lower case\n Replace meal with food for whole day menu')
 
@@ -112,15 +109,19 @@ def food(link, time, next, previous, curent):
         soup = BeautifulSoup(page, 'html.parser')
         final = ""
         dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']})
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header', 'station-header']})
         for y in range (0, len(dinnerStuff)):
-                dinnerStuffWord = dinnerStuff[y].text
-                if next ==  dinnerStuffWord:
-                    break
-                if dinnerStuffWord == "Breakfast" or dinnerStuffWord == "Lunch":
-                    final += "\n**" + dinnerStuffWord + "**\n"
+                stringElement = str(dinnerStuff[y])
+                if 'station-header' in stringElement:
+                    final += "\n**" + dinnerStuff[y].text + "**\n"
                 else:
-                    final += dinnerStuffWord + "\n"
+                    dinnerStuffWord = dinnerStuff[y].text
+                    if next ==  dinnerStuffWord:
+                        break
+                    if dinnerStuffWord == "Breakfast" or dinnerStuffWord == "Lunch":
+                        final += "\n__**" + dinnerStuffWord + "**__\n"
+                    else:
+                        final += dinnerStuffWord + "\n"
         return final
     if time == "middle":
         print = 0
@@ -129,17 +130,21 @@ def food(link, time, next, previous, curent):
         soup = BeautifulSoup(page, 'html.parser')
         final = ""
         dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header', 'station-header']}) #43
         for y in range (0, len(dinnerStuff)):
             dinnerStuffWord = dinnerStuff[y].text
             if curent ==  dinnerStuffWord or print == 1:
                 print = 0
                 if next != dinnerStuffWord:
                     print = 1
-                    if  dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Continuous Service":
-                        final += "\n**" + dinnerStuffWord + "**\n"
+                    stringElement = str(dinnerStuff[y])
+                    if 'station-header' in stringElement:
+                        final += "\n**" + dinnerStuff[y].text + "**\n"
                     else:
-                        final += dinnerStuffWord + "\n" 
+                        if  dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Continuous Service":
+                            final += "\n__**" + dinnerStuffWord + "**__\n"
+                        else:
+                            final += dinnerStuffWord + "\n" 
         return final
     if time == "last":
         print = 0
@@ -148,14 +153,18 @@ def food(link, time, next, previous, curent):
         soup = BeautifulSoup(page, 'html.parser')
         final = ""
         dinnerStuff = []
-        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header']}) #43
+        dinnerStuff = soup.findAll(True, {'class':['menu-item', 'event-header', 'station-header']}) #43
         for y in range (0, len(dinnerStuff)):
             dinnerStuffWord = dinnerStuff[y].text
             if curent ==  dinnerStuffWord or print == 1:
-                if dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Late Night":
-                    final += "\n**" + dinnerStuffWord + "**\n"
+                stringElement = str(dinnerStuff[y])
+                if 'station-header' in stringElement:
+                    final += "\n**" + dinnerStuff[y].text + "**\n"
                 else:
-                    final += dinnerStuffWord + "\n" 
+                    if dinnerStuffWord == "Lunch" or dinnerStuffWord == "Dinner" or dinnerStuffWord == "Late Night":
+                        final += "\n__**" + dinnerStuffWord + "**__\n"
+                    else:
+                        final += dinnerStuffWord + "\n" 
                 print = 1
         return final
 
@@ -163,7 +172,7 @@ def food(link, time, next, previous, curent):
     
 
 #Run locally
-#client.run(botSecret.Token)
+client.run(botSecret.Token)
 
 #Run on Heroku. Defined under Settings->Config Vars
-client.run(environ.get('BOT_TOKEN'))
+#client.run(environ.get('BOT_TOKEN'))
