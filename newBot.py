@@ -172,7 +172,11 @@ def food(link, time, next, previous, curent):
     
 
 #Run locally
-client.run(botSecret.Token)
+#client.run(botSecret.Token)
 
 #Run on Heroku. Defined under Settings->Config Vars
+<<<<<<< HEAD
 #Sclient.run(environ.get('BOT_TOKEN'))
+=======
+client.run(environ.get('BOT_TOKEN'))
+>>>>>>> 311d5c384fd220df704ea5ac2ec46d9f0682af33
