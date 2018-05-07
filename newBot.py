@@ -4,7 +4,6 @@ import botMessages
 import botSecret
 import requests
 import re
-import os
 from os import environ
 import urllib.request
 from bs4 import BeautifulSoup
@@ -173,7 +172,7 @@ def food(link, time, next, previous, curent):
     
 
 #Run locally
-#client.run(botSecret.Token)
+client.run(botSecret.Token)
 
 #Run on Heroku. Defined under Settings->Config Vars
-client.run(os.environ.get['BOT_TOKEN'])
+#Sclient.run(environ.get('BOT_TOKEN'))
