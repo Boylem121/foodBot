@@ -11,5 +11,5 @@ multidict==4.1.0
 requests==2.18.4
 urllib3==1.22
 urlopen==1.0.0
-websockets==4.0.1
+websockets==9.1
 yarl==1.1.1
